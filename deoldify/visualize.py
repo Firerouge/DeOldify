@@ -309,7 +309,7 @@ class VideoColorizer:
                 + str(colorized_path)
                 + '" -i "'
                 + str(audio_file)
-                + '" -shortest -c:v copy -c:a aac -b:a 256k "'
+                + '" -shortest -c:v copy -c:a copy "'
                 + str(result_path)
                 + '"'
             )
