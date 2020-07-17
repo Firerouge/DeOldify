@@ -282,7 +282,7 @@ class VideoColorizer:
             format='image2',
             vcodec='mjpeg',
             framerate=fps,
-        ).output(str(colorized_path), crf=17, vcodec='libx264').run(capture_stdout=True)
+        ).output(str(colorized_path), vcodec='hevc_nvenc', preset='lossless', spatial_aq:v=1, aq-strength=15).run(capture_stdout=True)
 
         result_path = self.result_folder / source_path.name
         if result_path.exists():
