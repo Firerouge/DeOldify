@@ -245,7 +245,7 @@ class VideoColorizer:
         bwframes_folder.mkdir(parents=True, exist_ok=True)
         self._purge_images(bwframes_folder)
         ffmpeg.input(str(source_path)).output(
-            str(bwframe_path_template), format='image2', vcodec='mjpeg', qmin=1, qmax=1
+            str(bwframe_path_template), format='image2', vcodec='mjpeg', **{'qmin': 1}, **{'qmax': 1}
         ).run(capture_stdout=True)
 
     def _colorize_raw_frames(
