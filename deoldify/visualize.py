@@ -355,6 +355,8 @@ class VideoColorizer:
 
 def get_video_colorizer(render_factor: int = 21) -> VideoColorizer:
     return get_stable_video_colorizer(render_factor=render_factor)
+def get_arty_video_colorizer(render_factor: int = 21) -> VideoColorizer:
+    return get_artistic_video_colorizer(render_factor=render_factor)
 
 
 def get_artistic_video_colorizer(
