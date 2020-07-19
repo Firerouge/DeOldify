@@ -76,6 +76,7 @@ class ModelImageVisualizer:
         display_render_factor: bool = False,
         compare: bool = False,
         post_process: bool = True,
+        helper_mode: bool = False
         watermarked: bool = True,
     ) -> Path:
         img = self._get_image_from_url(url)
@@ -98,6 +99,7 @@ class ModelImageVisualizer:
         display_render_factor: bool = False,
         compare: bool = False,
         post_process: bool = True,
+        helper_mode: bool = False,
         watermarked: bool = True,
     ) -> Path:
         path = Path(path)
@@ -163,7 +165,7 @@ class ModelImageVisualizer:
         return result_path
 
     def get_transformed_image(
-        self, path: Path, render_factor: int = None, post_process: bool = True,
+        self, path: Path, render_factor: int = None, post_process: bool = True, helper_mode: bool = False,
         watermarked: bool = True,
     ) -> Image:
         self._clean_mem()
@@ -256,7 +258,7 @@ class VideoColorizer:
         #).run(capture_stdout=True)
 
     def _colorize_raw_frames(
-        self, source_path: Path, render_factor: int = None, post_process: bool = True,
+        self, source_path: Path, render_factor: int = None, post_process: bool = True, helper_mode: bool = False,
         watermarked: bool = True,
     ):
         colorframes_folder = self.colorframes_root / (source_path.stem)
@@ -268,10 +270,11 @@ class VideoColorizer:
             img_path = bwframes_folder / img
 
             if os.path.isfile(str(img_path)):
-                color_image = self.vis.get_transformed_image(
-                    str(img_path), render_factor=render_factor, post_process=post_process,watermarked=watermarked
-                )
-                color_image.save(str(colorframes_folder / img))
+                if not os.path.isfile(str(colorframes_folder / img)):
+                    color_image = self.vis.get_transformed_image(
+                        str(img_path), render_factor=render_factor, post_process=post_process,watermarked=watermarked
+                    )
+                    color_image.save(str(colorframes_folder / img))
 
     def _build_video(self, source_path: Path) -> Path:
         colorized_path = self.result_folder / (
@@ -329,6 +332,7 @@ class VideoColorizer:
         file_name: str,
         render_factor: int = None,
         post_process: bool = True,
+        helper_mode: bool = False,
         watermarked: bool = True,
 
     ) -> Path:
@@ -339,7 +343,7 @@ class VideoColorizer:
         )
 
     def colorize_from_file_name(
-        self, file_name: str, render_factor: int = None,  watermarked: bool = True, post_process: bool = True,
+        self, file_name: str, render_factor: int = None,  watermarked: bool = True, post_process: bool = True, helper_mode: bool = False,
     ) -> Path:
         source_path = self.source_folder / file_name
         return self._colorize_from_path(
@@ -347,17 +351,20 @@ class VideoColorizer:
         )
 
     def _colorize_from_path(
-        self, source_path: Path, render_factor: int = None,  watermarked: bool = True, post_process: bool = True
+        self, source_path: Path, render_factor: int = None,  watermarked: bool = True, post_process: bool = True, helper_mode: bool = False
     ) -> Path:
         if not source_path.exists():
             raise Exception(
                 'Video at path specfied, ' + str(source_path) + ' could not be found.'
             )
-        self._extract_raw_frames(source_path)
+        if not helper_mode:
+            self._extract_raw_frames(source_path)
         self._colorize_raw_frames(
             source_path, render_factor=render_factor,post_process=post_process,watermarked=watermarked
         )
-        return self._build_video(source_path)
+        if not helper_mode
+            return self._build_video(source_path)
+        return True
 
 
 def get_video_colorizer(render_factor: int = 21) -> VideoColorizer:
