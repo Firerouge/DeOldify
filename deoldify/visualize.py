@@ -89,6 +89,7 @@ class ModelImageVisualizer:
             compare=compare,
             post_process = post_process,
             watermarked=watermarked,
+            helper_mode=helper_mode,
         )
 
     def plot_transformed_image(
@@ -104,7 +105,7 @@ class ModelImageVisualizer:
     ) -> Path:
         path = Path(path)
         result = self.get_transformed_image(
-            path, render_factor, post_process=post_process,watermarked=watermarked
+            path, render_factor, post_process=post_process,watermarked=watermarked,helper_mode=helper_mode
         )
         orig = self._open_pil_image(path)
         if compare:
@@ -272,7 +273,7 @@ class VideoColorizer:
             if os.path.isfile(str(img_path)):
                 if not os.path.isfile(str(colorframes_folder / img)):
                     color_image = self.vis.get_transformed_image(
-                        str(img_path), render_factor=render_factor, post_process=post_process,watermarked=watermarked
+                        str(img_path), render_factor=render_factor, post_process=post_process,watermarked=watermarked,helper_mode=helper_mode
                     )
                     color_image.save(str(colorframes_folder / img))
 
@@ -339,7 +340,7 @@ class VideoColorizer:
         source_path = self.source_folder / file_name
         self._download_video_from_url(source_url, source_path)
         return self._colorize_from_path(
-            source_path, render_factor=render_factor, post_process=post_process,watermarked=watermarked
+            source_path, render_factor=render_factor, post_process=post_process,watermarked=watermarked,helper_mode=helper_mode
         )
 
     def colorize_from_file_name(
@@ -347,7 +348,7 @@ class VideoColorizer:
     ) -> Path:
         source_path = self.source_folder / file_name
         return self._colorize_from_path(
-            source_path, render_factor=render_factor,  post_process=post_process,watermarked=watermarked
+            source_path, render_factor=render_factor,  post_process=post_process,watermarked=watermarked,helper_mode=helper_mode
         )
 
     def _colorize_from_path(
@@ -360,7 +361,7 @@ class VideoColorizer:
         if not helper_mode:
             self._extract_raw_frames(source_path)
         self._colorize_raw_frames(
-            source_path, render_factor=render_factor,post_process=post_process,watermarked=watermarked
+            source_path, render_factor=render_factor,post_process=post_process,watermarked=watermarked,helper_mode=helper_mode
         )
         if not helper_mode:
             return self._build_video(source_path)
