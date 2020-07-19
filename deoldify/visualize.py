@@ -272,6 +272,7 @@ class VideoColorizer:
 
             if os.path.isfile(str(img_path)):
                 if not os.path.isfile(str(colorframes_folder / img)):
+                    open(str(colorframes_folder / img), 'a').close()
                     color_image = self.vis.get_transformed_image(
                         str(img_path), render_factor=render_factor, post_process=post_process,watermarked=watermarked,helper_mode=helper_mode
                     )
