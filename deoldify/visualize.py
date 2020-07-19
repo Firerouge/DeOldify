@@ -76,7 +76,7 @@ class ModelImageVisualizer:
         display_render_factor: bool = False,
         compare: bool = False,
         post_process: bool = True,
-        helper_mode: bool = False
+        helper_mode: bool = False,
         watermarked: bool = True,
     ) -> Path:
         img = self._get_image_from_url(url)
