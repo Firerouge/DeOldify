@@ -244,9 +244,16 @@ class VideoColorizer:
         bwframe_path_template = str(bwframes_folder / '%5d.jpg')
         bwframes_folder.mkdir(parents=True, exist_ok=True)
         self._purge_images(bwframes_folder)
-        ffmpeg.input(str(source_path)).output(
-            str(bwframe_path_template), qmin=1, qmax=1, format='image2', vcodec='mjpeg', qscale=0
-        ).run(capture_stdout=True)
+        os.system(
+            'ffmpeg -y -i "'
+            + str(source_path)
+            + '" -vcodec mjpeg -qscale 0 -qmin 1 -qmax 1 -f image2 "'
+            + str(bwframe_path_template)
+            + '"'
+        )
+        #ffmpeg.input(str(source_path)).output(
+        #    str(bwframe_path_template), qmin=1, qmax=1, format='image2', vcodec='mjpeg', qscale=0
+        #).run(capture_stdout=True)
 
     def _colorize_raw_frames(
         self, source_path: Path, render_factor: int = None, post_process: bool = True,
