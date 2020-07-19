@@ -362,7 +362,7 @@ class VideoColorizer:
         self._colorize_raw_frames(
             source_path, render_factor=render_factor,post_process=post_process,watermarked=watermarked
         )
-        if not helper_mode
+        if not helper_mode:
             return self._build_video(source_path)
         return True
 
