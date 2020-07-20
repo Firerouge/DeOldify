@@ -263,8 +263,9 @@ class VideoColorizer:
         watermarked: bool = True, helper_mode: bool = False,
     ):
         colorframes_folder = self.colorframes_root / (source_path.stem)
-        colorframes_folder.mkdir(parents=True, exist_ok=True)
-        self._purge_images(colorframes_folder)
+        if not helper_mode:
+            colorframes_folder.mkdir(parents=True, exist_ok=True)
+            self._purge_images(colorframes_folder)
         bwframes_folder = self.bwframes_root / (source_path.stem)
 
         for img in progress_bar(os.listdir(str(bwframes_folder))):
