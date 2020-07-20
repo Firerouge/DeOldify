@@ -76,8 +76,8 @@ class ModelImageVisualizer:
         display_render_factor: bool = False,
         compare: bool = False,
         post_process: bool = True,
-        helper_mode: bool = False,
         watermarked: bool = True,
+        helper_mode: bool = False,
     ) -> Path:
         img = self._get_image_from_url(url)
         img.save(path)
@@ -100,8 +100,8 @@ class ModelImageVisualizer:
         display_render_factor: bool = False,
         compare: bool = False,
         post_process: bool = True,
-        helper_mode: bool = False,
         watermarked: bool = True,
+        helper_mode: bool = False,
     ) -> Path:
         path = Path(path)
         result = self.get_transformed_image(
@@ -166,8 +166,8 @@ class ModelImageVisualizer:
         return result_path
 
     def get_transformed_image(
-        self, path: Path, render_factor: int = None, post_process: bool = True, helper_mode: bool = False,
-        watermarked: bool = True,
+        self, path: Path, render_factor: int = None, post_process: bool = True,
+        watermarked: bool = True, helper_mode: bool = False,
     ) -> Image:
         self._clean_mem()
         orig_image = self._open_pil_image(path)
@@ -259,8 +259,8 @@ class VideoColorizer:
         #).run(capture_stdout=True)
 
     def _colorize_raw_frames(
-        self, source_path: Path, render_factor: int = None, post_process: bool = True, helper_mode: bool = False,
-        watermarked: bool = True,
+        self, source_path: Path, render_factor: int = None, post_process: bool = True,
+        watermarked: bool = True, helper_mode: bool = False,
     ):
         colorframes_folder = self.colorframes_root / (source_path.stem)
         colorframes_folder.mkdir(parents=True, exist_ok=True)
@@ -334,8 +334,8 @@ class VideoColorizer:
         file_name: str,
         render_factor: int = None,
         post_process: bool = True,
-        helper_mode: bool = False,
         watermarked: bool = True,
+        helper_mode: bool = False,
 
     ) -> Path:
         source_path = self.source_folder / file_name
