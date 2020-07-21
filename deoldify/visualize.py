@@ -211,7 +211,7 @@ class ModelImageVisualizer:
 class VideoColorizer:
     def __init__(self, vis: ModelImageVisualizer):
         self.vis = vis
-        workfolder = Path('/content/drive/My Drive/DAIN/backup/persistent/video')
+        workfolder = Path('/content/drive/DAIN/backup/persistent/video')
         self.source_folder = workfolder / "source"
         self.bwframes_root = workfolder / "bwframes"
         self.audio_root = workfolder / "audio"
