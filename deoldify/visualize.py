@@ -254,7 +254,6 @@ class VideoColorizer:
             + str(bwframe_path_template)
             + '"'
         )
-        os.fsync()
         #ffmpeg.input(str(source_path)).output(
         #    str(bwframe_path_template), qmin=1, qmax=1, format='image2', vcodec='mjpeg', qscale=0
         #).run(capture_stdout=True)
@@ -275,12 +274,10 @@ class VideoColorizer:
             if os.path.isfile(str(img_path)):
                 if not os.path.isfile(str(colorframes_folder / img)):
                     open(str(colorframes_folder / img), 'a').close()
-                    os.fsync()
                     color_image = self.vis.get_transformed_image(
                         str(img_path), render_factor=render_factor, post_process=post_process,watermarked=watermarked,helper_mode=helper_mode
                     )
                     color_image.save(str(colorframes_folder / img))
-                    os.fsync()
 
     def _build_video(self, source_path: Path) -> Path:
         colorized_path = self.result_folder / (
